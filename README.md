@@ -9,3 +9,4 @@ This new script includes the following:
 8. To check most frequent slice thickness in case of Non-uniform thickness
 9. To generate montage of study with window range of 40 to 80 hu values
 10. To generate html output in simple readable format
+11. To check Gantry shift
