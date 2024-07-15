@@ -116,7 +116,7 @@ file_reader = sitk.ImageFileReader()
 #source = 'E:\\patient_motion_correction\\20_SERIES'            ###INPUT TEST DATA path
 
 #source = 'E:\\patient_motion_correction\\004_NCCT_SRC'    ### checked slice 3 and 4 are High degree of Artifact
-#source = 'E:\\patient_motion_correction\\695a_2221077_004_NCCT_SRC_case_2' #### checked slice 3,4 pair and 23,24 pair high degree of artifact
+source = 'E:\\patient_motion_correction\\695a_2221077_004_NCCT_SRC_case_2' #### checked slice 3,4 pair and 23,24 pair high degree of artifact
 
 #source = 'E:\\patient_motion_correction\\695a_2142124_004_NCCT_SRC_case_3'
 #source = 'E:\\patient_motion_correction\\695a_2268512_004_NCCT_SRC_case_4'
@@ -128,7 +128,7 @@ file_reader = sitk.ImageFileReader()
 #source="E:\\patient_motion_correction\\raw\HA2138\\CT\\20110126T050821\\20_SERIES"
 #source = 'E:\\BRUCE\\3_CT_Non-contrast_CT'  ##103-001 BRUCE case
 #source = 'E:\\BRUCE\\3_CT_Non-contrast_CT_103_005_BRUCE'
-source = 'E:\\patient_motion_correction\\15_CT_Non-Contrast_CT_NCCT_thin_slice_Hermes_103_001'
+#source = 'E:\\patient_motion_correction\\15_CT_Non-Contrast_CT_NCCT_thin_slice_Hermes_103_001'
 target='E:\\patient_motion_correction\\Results'
 out_file_csv = target+"\\"+(source.split('\\'))[-1]+".csv"
 #sys.exit(0)
@@ -659,7 +659,7 @@ for source in source_list:
         largest_contour = max(contours, key=cv2.contourArea)
         # Calculate the area of the largest contour
         largest_contour_area = cv2.contourArea(largest_contour)
-        print(largest_contour_area)
+        #print(largest_contour_area)
         Largest_contours_area_all.append(largest_contour_area)
     All_mean_top_area.append(np.mean(Largest_contours_area_all[0:int(len(Sorted_file_names)/2)]))
     All_mean_bottom_area.append(np.mean(Largest_contours_area_all[int(len(Sorted_file_names)/2):]))                                                          
@@ -676,14 +676,14 @@ for i in range(len(Largest_contours_area_all)) :
     if i <=middle:
         if Largest_contours_area_all[i] < Min_area_top:#0.98 * np.mean(Largest_contours_area_all[0:middle]):
             print(i)
-            print(files_dicom[i])
+            #print(files_dicom[i])
             Result_area_list[i]=1
         else:
             Result_area_list[i]=0
     else:
         if Largest_contours_area_all[i] <  Min_area_bottom: #2 * np.mean(Largest_contours_area_all):
             print(i)
-            print(files_dicom[i])
+            #print(files_dicom[i])
             Result_area_list[i]=1
         else:
             Result_area_list[i]=0
