@@ -10,3 +10,6 @@ This new script includes the following:
 9. To generate montage of study with window range of 40 to 80 hu values
 10. To generate html output in simple readable format
 11. To check Gantry shift
+12. To check patient position change due to motion while scanning
+13. To find motion artifacts if any for NCCT THICK,THIN and CTP.
+    
