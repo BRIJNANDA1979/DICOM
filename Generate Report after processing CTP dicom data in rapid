@@ -1,0 +1,121 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Jun 19 13:00:11 2024
+
+@author: BRIJB
+"""
+
+import json
+import csv
+import numpy as np
+#json_file = 'E:\\Hermes_report\\MISMATCH_OUT\\output.json'
+json_file = 'E:\\Hermes_report\\output.json_18062024-210955'
+with open(json_file, 'r') as f:
+    json_data = json.load(f)
+    for k, v in json_data.items():
+        if k == 'MeasurementSummary.Thresholding':
+            print(v[0])
+    
+    
+    print(json_data['DICOMHeaderInfo']['Patient']['PatientName'])
+    Patient_name = json_data['DICOMHeaderInfo']['Patient']['PatientName']
+    print(json_data['DICOMHeaderInfo']['DiffusionSeries'][0]['StudyDate'])
+    Study_date = json_data['DICOMHeaderInfo']['DiffusionSeries'][0]['StudyDate']
+    Study_time = json_data['DICOMHeaderInfo']['DiffusionSeries'][0]['StudyTime']
+    
+    
+    print(json_data["MeasurementSummary"])
+    thresholds = json_data["MeasurementSummary"]
+    print(thresholds["Thresholding"])
+    thresholds_list = thresholds["Thresholding"]
+    print('\n\nthresholds')
+    print(thresholds_list[0]['Parameter'])
+    print(thresholds_list[0]['Threshold'])
+    print(thresholds_list[0]['Volume'])
+    
+    print(thresholds_list[2]['Parameter'])
+    print(thresholds_list[2]['Volume'])
+    
+    print(thresholds_list[8]['Parameter'])
+    print(thresholds_list[8]['Volume'])
+    
+    print(thresholds_list[12]['Parameter'])
+    print(thresholds_list[12]['Volume'])
+    
+    
+    
+    
+    ADC_thresholds=[]
+    ADC_volumes=[]
+    
+    Tmax_thresholds=[]
+    Tmax_volumes=[]
+    
+    CBF_thresholds=[]
+    CBF_volumes=[]
+    
+    CBV_thresholds=[]
+    CBV_volumes=[]
+    
+    for item in thresholds_list:
+        print(item['Parameter'])
+        if item['Parameter'] == 'ADC':
+            ADC_thresholds.append(item['Threshold'])
+            ADC_volumes.append(item['Volume'])
+        if item['Parameter'] == 'CBF':
+            CBF_thresholds.append(item['Threshold'])
+            CBF_volumes.append(item['Volume'])
+        if item['Parameter'] == 'CBV':
+            CBV_thresholds.append(item['Threshold'])
+            CBV_volumes.append(item['Volume'])
+        if item['Parameter'] == 'Tmax':
+            Tmax_thresholds.append(item['Threshold'])
+            Tmax_volumes.append(item['Volume'])
+         
+            
+    Cbf_less_30=[]
+    Tmax_more_6=[]
+    for i in range(len(CBF_thresholds)):
+        if CBF_thresholds[i]< 0.3:
+            Cbf_less_30.append(CBF_volumes[i])
+    for i in range(len(Tmax_thresholds)):
+        if Tmax_thresholds[i]>6:
+            Tmax_more_6.append(Tmax_volumes[i])
+        
+    #Cbf_less_30_volume = np.sum(Cbf_less_30)
+    #Tmax_more_6_volume = np.sum(Tmax_more_6)
+    Mismatch_volume_list=[]
+    #Mismatch_volume = abs(Cbf_less_30_volume-Tmax_more_6_volume)    
+    Mismatch_ratio_list=[]
+    for i in Tmax_more_6:
+        Mismatch_volume_list.append(f"{abs(i-Cbf_less_30[0]):.2f}")
+
+        if Cbf_less_30[0] == 0:
+            Mismatch_ratio_list.append('Nan')
+        else:
+            Mismatch_ratio_list.append(f"{float(i/Cbf_less_30[0]):.2f}")
+    
+file_path = 'E:\\Hermes_report\\out_new.txt'           
+with open(file_path, 'w') as file:
+    file.write(f"{Patient_name},") 
+    file.write(f"{Study_date},") 
+    file.write(f"{Study_time},") 
+    file.write(f"{ADC_thresholds},") 
+    file.write(f"{ADC_volumes},") 
+    file.write(f"{Tmax_thresholds},") 
+    file.write(f"{Tmax_volumes},")
+    file.write(f"{CBF_thresholds},") 
+    file.write(f"{CBF_volumes},")
+    file.write(f"{CBV_thresholds},") 
+    file.write(f"{CBV_volumes},")
+    file.write(f"{Mismatch_ratio_list},")
+    file.write(f"{Mismatch_volume_list}\n")
+  
+                
+            
+            
+            
+            
+            
+            
+            
